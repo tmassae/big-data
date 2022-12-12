@@ -1,9 +1,14 @@
-treinamento-semantix/material-aulas/
-docker-bigdata/
+big-data-foundation/
 data/
+docker-bigdata/
+input/
 projeto-final/
-spark/exercises-data/
-spark/treinamento-semantix/material-aulas/
+treinamento-semantix/material-aulas/
+docker-compose.yml
+docker-compose-completo.yml
+docker-compose-completo-windows.yml
+docker-compose-parcial.yml
+ecosystem.jpeg
 spark/data/hadoop
 spark/data/hbase
 spark/data/hue
@@ -16,6 +21,7 @@ spark/data/nifi
 spark/data/postgresql
 spark/data/util
 spark/data/zookeeper
+spark/exercises-data/
 spark/input/beneficio
 spark/input/db-sql
 spark/input/economicFitness
@@ -29,15 +35,18 @@ spark/input/namesbystate
 spark/input/ouvidoria
 spark/input/users
 spark/input/data-covid
+spark/input/juros_selic
+spark/input/readme.md
 spark/projeto-final/.ipynb_checkpoints
 spark/projeto-final/graficos_081222.png
-spark/Obitos acumulados.png
-spark/quadro_0801222.png
-spark/quadros.png
-spark/regiao_081222.png
-spark/sintese.png
-docker-compose.yml
-docker-compose-completo.yml
-docker-compose-completo-windows.yml
-docker-compose-parcial.yml
-ecosystem.jpeg
+spark/projeto-final/Obitos acumulados.png
+spark/projeto-final/quadro_0801222.png
+spark/projeto-final/quadros.png
+spark/projeto-final/regiao_081222.png
+spark/projeto-final/sintese.png
+spark/treinamento-semantix/material-aulas/
+spark/docker-compose.yml
+spark/docker-compose-completo.yml
+spark/docker-compose-completo-windows.yml
+spark/docker-compose-parcial.yml
+spark/ecosytem.jpeg
