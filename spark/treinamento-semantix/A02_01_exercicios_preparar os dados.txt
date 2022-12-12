@@ -1,0 +1,74 @@
+-----------------------------------------------
+Exercícios - Preprar os dados e o ambiente
+-----------------------------------------------
+
+1. Configurar o jar do spark para aceitar o formato parquet em tabelas Hive
+
+. curl -O https://repo1.maven.org/maven2/com/twitter/parquet-hadoop-bundle/1.6.0/parquet-hadoop-bundle-1.6.0.jar
+. docker cp parquet-hadoop-bundle-1.6.0.jar jupyter-spark:/opt/spark/jars
+
+--
+
+PS C:\Users\tmass\onedrive\documents\github\big-data\spark> docker cp parquet-hadoop-bundle-1.6.0.jar jupyter-spark:/opt/spark/jars
+
+-----------------------------------------------
+2. Baixar os dados dos exercícios do treinamento no diretório spark/input (volume no Namenode)
+-----------------------------------------------
+
+. cd input
+. sudo git clone https://github.com/rodrigo-reboucas/exercises-data.git
+
+-----------------------------------------------
+3. Verificar o envio dos dados para o namenode
+-----------------------------------------------
+
+PS C:\Users\tmass\onedrive\documents\github\big-data\spark> docker exec -it namenode ls /input
+README.md       economicFitness  escola       map.py        ouvidoria
+WordCount.java  empreendimento   hnpStats     mylib.zip     populacaoLA
+beneficio       entrada1.txt     iris         names         reduce.py
+db-sql          entrada2.txt     juros_selic  namesbystate
+
+PS C:\Users\tmass\onedrive\documents\github\big-data\spark> docker exec -it namenode bash
+root@namenode:/# ls /input
+README.md       beneficio  economicFitness  entrada1.txt  escola    iris         map.py     names         ouvidoria    reduce.py
+WordCount.java  db-sql     empreendimento   entrada2.txt  hnpStats  juros_selic  mylib.zip  namesbystate  populacaoLA
+
+-----------------------------------------------
+4. Criar no hdfs a seguinte estrutura: /user/rodrigo/data
+-----------------------------------------------
+
+Alterar o nome "rodrigo" por "tatiana"
+
+root@namenode:/# hdfs dfs -mkdir -p /user/tatiana/data
+root@namenode:/# hdfs dfs -ls /user
+Found 2 items
+drwxr-xr-x   - root supergroup          0 2022-11-04 17:06 /user/hive
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:22 /user/tatiana
+root@namenode:/# hdfs dfs -put /input/* /user/tatiana/data
+
+-----------------------------------------------
+5. Enviar todos os dados do diretório input para o hdfs em /user/rodrigo/data
+-----------------------------------------------
+
+root@namenode:/# hdfs dfs -put /input/* /user/tatiana/data
+root@namenode:/# hdfs dfs -ls /user/tatiana/data
+Found 19 items
+-rw-r--r--   3 root supergroup         49 2022-11-06 20:23 /user/tatiana/data/README.md
+-rw-r--r--   3 root supergroup       2150 2022-11-06 20:23 /user/tatiana/data/WordCount.java
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/beneficio
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/db-sql
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/economicFitness
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/empreendimento
+-rw-r--r--   3 root supergroup         60 2022-11-06 20:23 /user/tatiana/data/entrada1.txt
+-rw-r--r--   3 root supergroup         48 2022-11-06 20:23 /user/tatiana/data/entrada2.txt
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/escola
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/hnpStats
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/iris
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/juros_selic
+-rw-r--r--   3 root supergroup        170 2022-11-06 20:24 /user/tatiana/data/map.py
+-rw-r--r--   3 root supergroup      11871 2022-11-06 20:24 /user/tatiana/data/mylib.zip
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/names
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:25 /user/tatiana/data/namesbystate
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:25 /user/tatiana/data/ouvidoria
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:25 /user/tatiana/data/populacaoLA
+-rw-r--r--   3 root supergroup        537 2022-11-06 20:25 /user/tatiana/data/reduce.py

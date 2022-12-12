@@ -1,0 +1,2 @@
+v1
+{"path":"hdfs://namenode:8020/user/tatiana/kafka/topic-kvspark-output/part-00000-d71456c9-7158-479d-b240-6a4ebd875e1f-c000.csv","size":0,"isDir":false,"modificationTime":1669075846245,"blockReplication":2,"blockSize":268435456,"action":"add"}

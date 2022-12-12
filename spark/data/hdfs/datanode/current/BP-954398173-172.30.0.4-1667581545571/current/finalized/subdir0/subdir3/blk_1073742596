@@ -1,0 +1,3 @@
+v1
+{"path":"hdfs://namenode:8020/user/tatiana/stream_iris/path/part-00000-f62c8ae9-a4ee-45d3-a32b-ca6390505d98-c000.csv","size":4550,"isDir":false,"modificationTime":1669059591531,"blockReplication":2,"blockSize":268435456,"action":"add"}
+{"path":"hdfs://namenode:8020/user/tatiana/stream_iris/path/part-00001-a95f68d6-9a9c-40f5-b845-f58375256a2c-c000.csv","size":4550,"isDir":false,"modificationTime":1669059591566,"blockReplication":2,"blockSize":268435456,"action":"add"}

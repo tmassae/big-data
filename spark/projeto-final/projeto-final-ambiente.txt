@@ -1,0 +1,144 @@
+-----------------------------------------------
+1. Montando imagens dos containers docker e criar cluster bigdata
+-----------------------------------------------
+
+docker-compose -f docker-compose-parcial.yml up -d (montar as imagens e iniciar os containers)
+docker-compose -f docker-compose-parcial.yml stop (ao finalizar as atividades) 
+
+C:\big-data\spark>docker-compose -f docker-compose-parcial.yml up -d
+[+] Running 13/13
+ - Container database                   Starded                                                                                                        0.0s
+ - Container mongo_express              Starded                                                                                                        0.0s
+ - Container jupyter-spark              Starded                                                                                                        0.0s
+ - Container namenode                   Starded                                                                                                        0.0s
+ - Container zookeeper-ds               Starded                                                                                                        0.0s
+ - Container mongo-ds                   Starded                                                                                                        0.0s
+ - Container hbase-master               Started                                                                                                        1.8s
+ - Container kafka                      Started                                                                                                        1.8s
+ - Container datanode                   Starded                                                                                                        0.0s
+ - Container kafkamanager               Starded                                                                                                        0.0s
+ - Container hive-metastore-postgresql  Starded                                                                                                        0.0s
+ - Container hive_metastore             Starded                                                                                                        0.0s
+ - Container hive-server                Starded                                                                                                        0.0s
+
+
+-----------------------------------------------
+2. Baixar o arquivo para o projeto no diretório spark/input (volume no Namenode)
+-----------------------------------------------
+
+. criar a pasta para baixar o arquivo para o projeto dentro da pasta input
+. sudo curl -O https://mobileapps.saude.gov.br/esus-vepi/files/unAFkcaNDeXajurGB7LChj8SgQYS2ptm/04bd3419b22b9cc5c6efac2c6528100d_HIST_PAINEL_COVIDBR_06jul2021.rar
+. descompactar o arquivo
+
+--
+
+tatiana@Tatiana_Sakata:/big-data/spark/input$ mkdir covid19-br
+
+tatiana@Tatiana_Sakata:/big-data/spark/input$ dir
+README.md       beneficio   data-covid  economicFitness  entrada1.txt  escola          hnpStats  juros_selic  mylib.zip  namesbystate  populacaoLA  users
+WordCount.java  covid19-br  db-sql      empreendimento   entrada2.txt  exercises-data  iris      map.py       names      ouvidoria     reduce.py
+
+tatiana@Tatiana_Sakata:/big-data/spark/input$ cd covid19-br
+
+tatiana@Tatiana_Sakata:/big-data/spark/input/covid19-br$ sudo curl -O https://mobileapps.saude.gov.br/esus-vepi/files/unAFkcaNDeXajurGB7LChj8SgQYS2ptm/04bd3419b22b9cc5c6efac2c6528100d_HIST_PAINEL_COVIDBR_06jul2021.rar
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 11.8M  100 11.8M    0     0  6855k      0  0:00:01  0:00:01 --:--:-- 6855k
+
+tatiana@Tatiana_Sakata:/big-data/spark/input/covid19-br$ unrar x 04bd3419b22b9cc5c6efac2c6528100d_HIST_PAINEL_COVIDBR_06jul2021.rar
+
+UNRAR 5.61 beta 1 freeware      Copyright (c) 1993-2018 Alexander Roshal
+
+
+Extracting from 04bd3419b22b9cc5c6efac2c6528100d_HIST_PAINEL_COVIDBR_06jul2021.rar
+
+Extracting  HIST_PAINEL_COVIDBR_2020_Parte1_06jul2021.csv             OK
+Extracting  HIST_PAINEL_COVIDBR_2020_Parte2_06jul2021.csv             OK
+Extracting  HIST_PAINEL_COVIDBR_2021_Parte1_06jul2021.csv             OK
+Extracting  HIST_PAINEL_COVIDBR_2021_Parte2_06jul2021.csv             OK
+All OK
+
+
+-----------------------------------------------
+3. Configurar o jar do spark para aceitar o formato parquet em tabelas Hive
+-----------------------------------------------
+
+. curl -O https://repo1.maven.org/maven2/com/twitter/parquet-hadoop-bundle/1.6.0/parquet-hadoop-bundle-1.6.0.jar
+. docker cp parquet-hadoop-bundle-1.6.0.jar jupyter-spark:/opt/spark/jars
+
+--
+
+C:\big-data\spark> docker cp parquet-hadoop-bundle-1.6.0.jar jupyter-spark:/opt/spark/jars
+
+
+-----------------------------------------------
+4. Enviar os dados para o hdfs
+-----------------------------------------------
+
+C:\big-data\spark>docker exec -it namenode bash
+root@namenode:/# hdfs dfs -mkdir -p /user/tatiana/projeto-final-data-engineer
+root@namenode:/# hdfs dfs -put /input/covid19-br/* /user/tatiana/projeto-final-data-engineer
+root@namenode:/# hdfs dfs -ls /user/tatiana/projeto-final-data-engineer
+Found 5 items
+-rw-r--r--   3 root supergroup   12445782 2022-12-06 01:00 /user/tatiana/projeto-final-data-engineer/04bd3419b22b9cc5c6efac2c6528100d_HIST_PAINEL_COVIDBR_06jul2021.rar
+-rw-r--r--   3 root supergroup   62492959 2022-12-06 01:00 /user/tatiana/projeto-final-data-engineer/HIST_PAINEL_COVIDBR_2020_Parte1_06jul2021.csv
+-rw-r--r--   3 root supergroup   76520681 2022-12-06 01:00 /user/tatiana/projeto-final-data-engineer/HIST_PAINEL_COVIDBR_2020_Parte2_06jul2021.csv
+-rw-r--r--   3 root supergroup   91120916 2022-12-06 01:00 /user/tatiana/projeto-final-data-engineer/HIST_PAINEL_COVIDBR_2021_Parte1_06jul2021.csv
+-rw-r--r--   3 root supergroup    3046774 2022-12-06 01:00 /user/tatiana/projeto-final-data-engineer/HIST_PAINEL_COVIDBR_2021_Parte2_06jul2021.csv
+
+
+-----------------------------------------------
+5. Verificar o envio dos dados para o namenode
+-----------------------------------------------
+
+C:\big-data\spark>docker exec -it namenode ls /input
+README.md       db-sql           escola          map.py        populacaoLA
+WordCount.java  economicFitness  exercises-data  mylib.zip     reduce.py
+beneficio       empreendimento   hnpStats        names         users
+covid19-br      entrada1.txt     iris            namesbystate
+data-covid      entrada2.txt     juros_selic     ouvidoria
+
+root@namenode:/# ls /input
+README.md       beneficio   data-covid  economicFitness  entrada1.txt  escola          hnpStats  juros_selic  mylib.zip  namesbystate  populacaoLA  users
+WordCount.java  covid19-br  db-sql      empreendimento   entrada2.txt  exercises-data  iris      map.py       names      ouvidoria     reduce.py
+
+
+-----------------------------------------------
+4. Criar no hdfs a seguinte estrutura: /user/rodrigo/data
+-----------------------------------------------
+
+Alterar o nome "rodrigo" por "tatiana"
+
+root@namenode:/# hdfs dfs -mkdir -p /user/tatiana/data
+root@namenode:/# hdfs dfs -ls /user
+Found 2 items
+drwxr-xr-x   - root supergroup          0 2022-11-04 17:06 /user/hive
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:22 /user/tatiana
+root@namenode:/# hdfs dfs -put /input/* /user/tatiana/data
+
+-----------------------------------------------
+5. Enviar todos os dados do diretório input para o hdfs em /user/rodrigo/data
+-----------------------------------------------
+
+root@namenode:/# hdfs dfs -put /input/* /user/tatiana/data
+root@namenode:/# hdfs dfs -ls /user/tatiana/data
+Found 19 items
+-rw-r--r--   3 root supergroup         49 2022-11-06 20:23 /user/tatiana/data/README.md
+-rw-r--r--   3 root supergroup       2150 2022-11-06 20:23 /user/tatiana/data/WordCount.java
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/beneficio
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/db-sql
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/economicFitness
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/empreendimento
+-rw-r--r--   3 root supergroup         60 2022-11-06 20:23 /user/tatiana/data/entrada1.txt
+-rw-r--r--   3 root supergroup         48 2022-11-06 20:23 /user/tatiana/data/entrada2.txt
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:23 /user/tatiana/data/escola
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/hnpStats
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/iris
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/juros_selic
+-rw-r--r--   3 root supergroup        170 2022-11-06 20:24 /user/tatiana/data/map.py
+-rw-r--r--   3 root supergroup      11871 2022-11-06 20:24 /user/tatiana/data/mylib.zip
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:24 /user/tatiana/data/names
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:25 /user/tatiana/data/namesbystate
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:25 /user/tatiana/data/ouvidoria
+drwxr-xr-x   - root supergroup          0 2022-11-06 20:25 /user/tatiana/data/populacaoLA
+-rw-r--r--   3 root supergroup        537 2022-11-06 20:25 /user/tatiana/data/reduce.py

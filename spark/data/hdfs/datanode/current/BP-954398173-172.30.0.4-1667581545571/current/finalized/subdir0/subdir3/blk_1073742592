@@ -1,0 +1,3 @@
+v1
+{"path":"hdfs://namenode:8020/user/tatiana/data/iris/bezdekIris.data","timestamp":1667766243978,"batchId":0}
+{"path":"hdfs://namenode:8020/user/tatiana/data/iris/iris.data","timestamp":1667766244459,"batchId":0}
