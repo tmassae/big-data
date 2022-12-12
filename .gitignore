@@ -1,5 +1,6 @@
 treinamento-semantix/material-aulas/
 docker-bigdata/
+data/
 projeto-final/
 spark/exercises-data/
 spark/treinamento-semantix/material-aulas/
@@ -28,6 +29,13 @@ spark/input/namesbystate
 spark/input/ouvidoria
 spark/input/users
 spark/input/data-covid
+spark/projeto-final/.ipynb_checkpoints
+spark/projeto-final/graficos_081222.png
+spark/Obitos acumulados.png
+spark/quadro_0801222.png
+spark/quadros.png
+spark/regiao_081222.png
+spark/sintese.png
 docker-compose.yml
 docker-compose-completo.yml
 docker-compose-completo-windows.yml

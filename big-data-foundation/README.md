@@ -1,24 +1,3 @@
-Ambiente para estudo dos principais frameworks big data em docker.
-<br> Esse setup vai criar dockers com os frameworks HDFS, HBase, Hive, Presto, Spark, Jupyter, Hue, Mongodb, Metabase, Nifi, kafka, Mysql e Zookeeper.
-<br>  
-
-# BIG DATA
-
-Com o advento da internet, o volume de dados gerados ao redor do mundo cresceu de forma inesperada conforme os anos foram se passando. A utilização em larga escala de dispositivos móveis ampliou ainda mais a quantidade de dados gerados diariamente.
-
-Os métodos tradicionais para armazenamento e processamento de dados em grandes empresas começaram a não ser suficientes, gerando problemas e gastos cada vez maiores para suprir suas necessidades.
-
-Devido a esses acontecimentos, surgiu o conceito de Big Data, uma área do conhecimento que tem como intuito estudar maneiras de tratar, analisar e gerar conhecimento através de grandes conjuntos de dados que não conseguem ser trabalhados em sistemas tradicionais.
-
-Para entender melhor esse conceito, podemos pensar na forma como esse sistema tradicional de armazenamento e processamento de dados é realizado. Perceba que é colocado aqui no presente como “é realizado”, porque os processos de trabalho com o Big Data não excluem a forma de trabalhar no sistema tradicional em grande parte dos casos, uma vez que muitas empresas não necessitam da utilização de ferramentas do Big Data para manipular os dados, e mesmo as grandes empresas utilizam um sistema híbrido. Dessa forma, as duas maneiras de trabalhar com os dados coexistem.
-
-O sistema tradicional utiliza os famosos SGBDs, ou sistemas gerenciais de banco de dados, que guardam informações de forma estruturada, no formato de tabelas, com linhas e colunas. Utilizam máquinas com grande capacidade de armazenamento e processamento. Quando há a necessidade de expandir a capacidade dessas máquinas, é necessário introduzir novos componentes de hardware, para que tenham mais memória e processamento.
-
-Os problemas que começam a aparecer quando se alcança um grande volume de dados usando esse sistema tradicional são relacionados à escalabilidade, disponibilidade e flexibilidade. Como exemplos, podemos mencionar que é muito custoso o aprimoramento dessas máquinas de maneira vertical a cada vez que é necessário realizar um upgrade, corriqueiramente nesse momento o sistema fica indisponível, já que a máquina está em processo de manutenção.
-
-De forma a compreender a definição de Big Data, é necessário introduzir os conceitos dos V’s do Big Data. Inicialmente, a definição era composta por 3 V’s, mas hoje podemos encontrar definições expandidas com 5, 7 ou mais V’s. Os 7 V’s são: volume, variedade, velocidade, valor, veracidade, variabilidade e visualização.
-
-
 
 # BIG DATA ECOSYSTEM COM DOCKER
 
