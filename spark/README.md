@@ -1,4 +1,4 @@
-Objetivo deste respositório
+Objetivo deste respositório - Spark
 
 Exercícios acadêmicos para a prática de tratamento de dados em Spark (Scala e Python).
 
